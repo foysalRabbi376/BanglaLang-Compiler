@@ -1,0 +1,76 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title BanglaLang Compiler - Major Class UML
+
+class Token {
+  +Kind kind
+  +string lexeme
+  +int line
+  +int column
+}
+
+class Lexer {
+  -string src
+  -size_t pos
+  -int line
+  -int col
+  -unordered_map keywords
+  -vector errors
+  +tokenize() : vector<Token>
+}
+
+abstract class Expr
+class LiteralExpr
+class VariableExpr
+class UnaryExpr
+class BinaryExpr
+
+abstract class Stmt
+class VarDeclStmt
+class AssignStmt
+class PrintStmt
+class IfStmt
+class WhileStmt
+
+Expr <|-- LiteralExpr
+Expr <|-- VariableExpr
+Expr <|-- UnaryExpr
+Expr <|-- BinaryExpr
+Stmt <|-- VarDeclStmt
+Stmt <|-- AssignStmt
+Stmt <|-- PrintStmt
+Stmt <|-- IfStmt
+Stmt <|-- WhileStmt
+
+Parser --> Token : reads
+Parser --> Expr : builds
+Parser --> Stmt : builds
+UnaryExpr --> Expr : rhs
+BinaryExpr --> Expr : left/right
+VarDeclStmt --> Expr : init
+AssignStmt --> Expr : value
+PrintStmt --> Expr : value
+IfStmt --> Expr : condition
+IfStmt --> Stmt : then/else blocks
+WhileStmt --> Expr : condition
+WhileStmt --> Stmt : body
+
+class SemanticAnalyzer {
+  -symbols : map<string, Type>
+  -errors : vector<string>
+  +analyze(program)
+}
+
+class CodeGenerator {
+  -out : string stream
+  -indent : int
+  +generate(program) : string
+}
+
+Lexer --> Parser : tokens
+Parser --> SemanticAnalyzer : AST
+SemanticAnalyzer --> CodeGenerator : validated AST
+CodeGenerator --> "Python 3 file" : emits
+
+@enduml

@@ -1,0 +1,50 @@
+<program> ::= "শুরু" "{" <statement-list> "}" "শেষ"
+
+<statement-list> ::= <statement> <statement-list> | ε
+
+<statement> ::= <declaration> ";"
+              | <assignment> ";"
+              | <print-statement> ";"
+              | <if-statement>
+              | <while-statement>
+
+<declaration> ::= <type> <identifier>
+                | <type> <identifier> "=" <expression>
+
+<type> ::= "সংখ্যা" | "দশমিক"
+
+<assignment> ::= <identifier> "=" <expression>
+
+<print-statement> ::= "দেখাও" "(" <expression> ")"
+
+<if-statement> ::= "যদি" "(" <condition> ")" "{" <statement-list> "}"
+                   ["নাহলে" "{" <statement-list> "}"]
+
+<while-statement> ::= "যতক্ষণ" "(" <condition> ")" "{" <statement-list> "}"
+
+<condition> ::= <expression> <comparison-operator> <expression>
+
+<comparison-operator> ::= "==" | "!=" | "<" | "<=" | ">" | ">="
+
+<expression> ::= <term> <expression-tail>
+<expression-tail> ::= "+" <term> <expression-tail>
+                    | "-" <term> <expression-tail>
+                    | ε
+
+<term> ::= <factor> <term-tail>
+<term-tail> ::= "*" <factor> <term-tail>
+              | "/" <factor> <term-tail>
+              | "%" <factor> <term-tail>
+              | ε
+
+<factor> ::= "-" <factor>
+           | <primary>
+
+<primary> ::= <integer>
+            | <decimal>
+            | <identifier>
+            | "(" <expression> ")"
+
+<identifier> ::= any non-keyword UTF-8 token made of letters/digits/underscore
+<integer> ::= digit { digit }
+<decimal> ::= digit { digit } "." digit { digit }
