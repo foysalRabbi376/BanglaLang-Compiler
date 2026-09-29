@@ -47,7 +47,9 @@ The Lexer and Parser are important early stages of the compiler.
 
 The Lexer identifies the individual elements of the source program, while the Parser checks how those elements are arranged according to the language grammar.
 
+
 1. Source Code Handling
+
 What I implemented
 
 I handled the source program input part of the compiler.
@@ -105,6 +107,7 @@ return ss.str();
 This source string becomes the input of the Lexer.
 
 2. Lexical Analysis — Lexer
+
 What is Lexical Analysis?
 
 Lexical analysis is the first major stage of the compiler.
@@ -145,6 +148,7 @@ Single-line comments
 Line and column tracking
 Invalid characters
 End-of-file token
+
 3. Token Structure
 
 The Lexer uses a Token structure.
@@ -207,6 +211,7 @@ kind — type of the token
 lexeme — actual text
 line — line number
 column — column number
+
 4. BanglaLang Keywords
 
 The Lexer contains a keyword table.
@@ -239,6 +244,7 @@ x
 is recognized as:
 
 Identifier
+        
 5. Lexer Class
 
 The main Lexer class is responsible for scanning the complete source code.
@@ -388,7 +394,9 @@ and:
 becomes:
 
 DoubleLiteral
+        
 8. Recognizing Identifiers and Keywords
+        
 Token identifier() {
     int startLine = line;
     int startColumn = column;
@@ -579,6 +587,7 @@ EOF
 These tokens are then passed to the Parser.
 
 12. Syntax Analysis — Parser
+
 What is Syntax Analysis?
 
 Syntax analysis is the stage after lexical analysis.
@@ -658,6 +667,7 @@ Literal values
 Variables
 Unary operations
 Binary operations
+
 14. AST Statement Structures
 
 The Parser also creates statement nodes.
@@ -727,6 +737,7 @@ struct WhileStmt : Stmt {
         : condition(std::move(c)),
           body(std::move(b)) {}
 };
+
 15. Parser Class
 
 The Parser stores the generated tokens and keeps track of the current token.
@@ -821,6 +832,7 @@ The Parser recognizes the BanglaLang program structure using:
    |---- statements
    |
 শেষ
+
 17. Parsing Statements
 
 The Parser determines the statement type based on the current token.
@@ -862,6 +874,7 @@ Assignment
 Print
 If-else
 While
+
 18. Parsing Variable Declaration
 
 For a declaration such as:
@@ -932,6 +945,7 @@ unique_ptr<Stmt> parseAssign() {
         std::move(value)
     );
 }
+
 20. Parsing Print Statement
 
 For:
@@ -952,6 +966,7 @@ unique_ptr<Stmt> parsePrint() {
         std::move(expression)
     );
 }
+
 21. Parsing If-Else
 
 The Parser also supports conditional statements.
@@ -986,6 +1001,7 @@ unique_ptr<Stmt> parseIf() {
         std::move(elseBranch)
     );
 }
+
 22. Parsing While Loop
 
 The Parser supports:
@@ -1019,6 +1035,7 @@ unique_ptr<Stmt> parseWhile() {
         std::move(body)
     );
 }
+
 23. Parsing Blocks
 
 Blocks are enclosed by { and }.
@@ -1076,6 +1093,7 @@ to be interpreted correctly.
 Multiplication is handled before addition.
 
 25. Equality and Comparison
+        
 unique_ptr<Expr> parseExpression() {
     return parseEquality();
 }
@@ -1127,6 +1145,7 @@ unique_ptr<Expr> parseComparison() {
 
     return expr;
 }
+        
 26. Arithmetic Expression Parsing
 
 Addition and subtraction:
@@ -1175,6 +1194,7 @@ unique_ptr<Expr> parseFactor() {
 
     return expr;
 }
+        
 27. Unary Expression
 
 The Parser supports unary minus.
@@ -1195,6 +1215,7 @@ unique_ptr<Expr> parseUnary() {
 
     return parsePrimary();
 }
+        
 28. Primary Expressions
 
 The Parser recognizes literals, variables and parenthesized expressions.
@@ -1237,6 +1258,7 @@ unique_ptr<Expr> parsePrimary() {
         to_string(peek().line)
     );
 }
+        
 29. Error Handling
 
 The Parser reports syntax errors when the token sequence does not follow the expected grammar.
@@ -1354,6 +1376,7 @@ Parser
      |
      v
 AST
+        
 33. Example of Lexer Output
 
 For:
@@ -1398,6 +1421,7 @@ VarDeclStmt
               +-- LiteralExpr(10)
               |
               +-- LiteralExpr(5)
+        
 35. How the Lexer and Parser Work Together
 
 The Lexer does not decide whether the complete program is grammatically correct.
@@ -1481,3 +1505,11 @@ While loop parsing
 Expression parsing with operator precedence
 Syntax error handling and synchronization
 AST structures required by the Parser
+
+        Final Contribution Statement
+
+My main contribution to the BanglaLang Compiler was implementing the source code input process, Lexer and Parser.
+
+The Lexer converts BanglaLang source code into tokens, while the Parser validates the token sequence according to the language grammar and constructs the required AST structures.
+
+These stages prepare the program for the later Semantic Analysis and Code Generation phases.
