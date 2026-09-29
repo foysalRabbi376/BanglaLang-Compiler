@@ -16,7 +16,7 @@ My contribution can be summarized as:
 
 ## Overall Compiler Flow
 
-```text
+
 Bangla Source Code
         |
         v
